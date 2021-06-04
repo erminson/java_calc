@@ -1,3 +1,4 @@
+import exception.IllegalArgumentCalculatorException;
 import exception.ParseCalculatorException;
 import exception.TermInitializeCalculatorException;
 import service.Calculator;
@@ -24,6 +25,8 @@ public class Main {
             BigDecimal value = calc.eval(expr);
             terminalView.printResult(value);
         } catch (ParseCalculatorException | TermInitializeCalculatorException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentCalculatorException e) {
             e.printStackTrace();
         }
     }
