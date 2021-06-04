@@ -1,5 +1,6 @@
 package service;
 
+import exception.IllegalArgumentCalculatorException;
 import exception.ParseCalculatorException;
 import exception.TermInitializeCalculatorException;
 import model.*;
@@ -22,7 +23,7 @@ public class Calculator {
         this.parser = parser;
     }
 
-    public BigDecimal eval(final String expr) throws ParseCalculatorException, TermInitializeCalculatorException {
+    public BigDecimal eval(final String expr) throws ParseCalculatorException, TermInitializeCalculatorException, IllegalArgumentCalculatorException {
         List<Term> expresion = parser.parse(expr);
         getRpnExpression(expresion);
 
@@ -106,7 +107,7 @@ public class Calculator {
         }
     }
 
-    private LiteralTerm calc(LiteralTerm operand1, LiteralTerm operand2, OperatorTerm op) {
+    private LiteralTerm calc(LiteralTerm operand1, LiteralTerm operand2, OperatorTerm op) throws IllegalArgumentCalculatorException {
         BigDecimal val1 = operand1.getValue();
         BigDecimal val2 = operand2.getValue();
         BigDecimal res = BigDecimal.ZERO;
@@ -122,6 +123,9 @@ public class Calculator {
                 res = val1.multiply(val2);
                 break;
             case Division:
+                if (val2.equals(BigDecimal.ZERO)) {
+                    throw new IllegalArgumentCalculatorException("Division by zero");
+                }
                 res = val1.divide(val2);
                 break;
         }
