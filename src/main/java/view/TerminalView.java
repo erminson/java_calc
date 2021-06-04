@@ -1,8 +1,8 @@
 package view;
 
 import util.IValidator;
-import util.Validator;
 
+import java.io.PrintStream;
 import java.math.BigDecimal;
 import java.util.Scanner;
 
@@ -15,15 +15,23 @@ public class TerminalView implements IView {
 
     @Override
     public String readExpression() {
+        return readExpression(new Scanner(System.in), System.out);
+    }
+
+    public String readExpression(Scanner scanner) {
+        return readExpression(scanner, System.out);
+    }
+
+    public String readExpression(Scanner scanner, PrintStream output) {
         String expr;
         do {
-            System.out.println("Enter expression: ");
-            expr = new Scanner(System.in).nextLine();
+            output.println("Enter expression: ");
+            expr = scanner.nextLine();
 
             if (validator.isValid(expr)) {
                 break;
             } else {
-                System.out.println("Expression is not valid.");
+                output.println("Expression is not valid.");
             }
         } while (true);
 
